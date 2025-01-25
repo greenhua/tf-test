@@ -1,4 +1,4 @@
-resource "aws_security_group" "my_sg" {
+resource "aws_security_group" "test-ec2-sg" {
   name        = "${var.project}-test-ec2-sg"
   description = "Allow inbound SSH and HTTP"
   vpc_id = aws_vpc.my_vpc.id
@@ -35,11 +35,11 @@ resource "aws_key_pair" "my_key" {
 }
 
 resource "aws_instance" "my_ec2" {
-  depends_on = [aws_security_group.my_sg]
+  depends_on = [aws_security_group.test-ec2-sg]
   ami             =   var.ubuntu_ami
   instance_type   = var.instance_type
   subnet_id       = aws_subnet.public-1.id
-  security_groups = [aws_security_group.my_sg.id]
+  security_groups = [aws_security_group.test-ec2-sg.id]
   key_name        = aws_key_pair.my_key.key_name
 
   tags = {
